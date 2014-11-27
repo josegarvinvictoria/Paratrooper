@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import acm.graphics.GImage;
 
@@ -15,12 +16,14 @@ public class Cano {
     double posYBase;
     double posXTub;
     double posYTub;
+    ArrayList<Bala> bales;
 
     Cano(GImage base, GImage tub, Main finestra) {
         this.baseCano = base;
         this.tubCano = tub;
         this.posXBase = finestra.getTamanyX();
         this.posYBase = finestra.getTamanyY() - base.getHeight();
+        bales = new ArrayList<Bala>();
     }
 
     void rotarTubCano(int graus) {
@@ -28,6 +31,16 @@ public class Cano {
         this.tubCano.setImage((rotateMyImage( toBufferedImage(this.getTubCano()
                 .getImage()), graus)));
     }
+
+
+    void dispara(Main finestra){
+        Bala bala = new Bala(tubCano.getY(), tubCano.getWidth()/2);
+        bales.add(bala);
+
+        System.out.println("Bala Creada!");
+        bala.moureBala(finestra);
+    }
+
 
     /**
      * Mètode per rotar una imatge.
