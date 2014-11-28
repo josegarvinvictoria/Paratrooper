@@ -10,12 +10,15 @@ public class Soldat extends ObjecteEnMoviment {
     double xSalt = 0;
     boolean tocaTerra;
     Paracaigudes paraca;
+    boolean paracaObert;
 
-    public Soldat() {
+    public Soldat(int x) {
         // TODO Auto-generated constructor stub
-        this.setImatge(new GImage("resources/soldat/soldierMini.png"));
+        this.setImatge(new GImage("resources/soldat/soldierMini.png", x,0));
         haSaltat = false;
-        xSalt = calculXSalt();
+        xSalt = x;
+        paracaObert = false;
+        this.setHaSortit(haSaltat);
     }
 
     public void saltarHelicopter(Main finestra, ObjecteEnMoviment helicopter) {
@@ -27,14 +30,12 @@ public class Soldat extends ObjecteEnMoviment {
 
     }
 
-    public int calculXSalt() {
-        Random rnd = new Random();
-        return (int) (rnd.nextDouble() * 900);
-    }
+
 
     @Override
     public void startPlay(Main finestra) {
         // TODO Auto-generated method stub
+
 
     }
 
@@ -56,9 +57,14 @@ public class Soldat extends ObjecteEnMoviment {
         if (this.haSaltat && !this.tocaTerra) {
             this.caure();
 
-            if(this.getImatge().getY() == finestra.getHeight()/2){
-                System.out.println("Obrir paracaigudes!");
-                obrirParaca(finestra);
+            if(this.getImatge().getY() > finestra.getHeight()/2){
+
+                if(!paracaObert){
+                    System.out.println("Obrir paracaigudes!");
+                    obrirParaca(finestra);
+                    this.paracaObert = true;
+                }
+
             }
 
             if (this.getImatge().getY() == (finestra.getHeight() - this

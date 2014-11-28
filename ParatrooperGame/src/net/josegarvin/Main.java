@@ -72,70 +72,63 @@ public class Main extends GraphicsProgram {
                 Main.getTamanyX() / 2 - ((cano.getBaseCano().getWidth()) / 2),
                 Main.getTamanyY() - cano.getBaseCano().getHeight());
 
-        // Helicopter helicopter = crearHelicopterAleatori();
-        //
-        //
-        //
-        // if (helicopter.estaDinsFinestra(this, helicopter.getImatge())) {
-        // System.out.println("Esta dins");
-        //
-        // //Creem un array en el que el length correpont al numero de soldats
-        // int[] posicionsSortida = helicopter.calculOperturaPortes(this);
-        //
-        // int numSoldats = posicionsSortida.length;
-        //
-        // //Carreguem el soldats a l'helicopter.
-        // helicopter.carregaSoldats(numSoldats);
-        //
-        //
-        // while (helicopter.estaDinsFinestra(this, helicopter.getImatge())) {
-        //
-        // helicopter.moureHelicopter(this);
-        //
-        // helicopter.obrirPortes(posicionsSortida, this);
-
-        // }
-        // }
-
         /**
          *
          * ESTO ES NUEVO!
          *
          */
         boolean haSortit = false;
+        boolean jocFinalitzat = false;
+        // Generar helicopters aletoris.
+        // int numHelicopters = generarRandom(4);
+        // System.out.println(numHelicopters);
+        // for (int i = 0; i < numHelicopters; i++) {
+        // this.crearHelicopterAleatori();
+        // }
 
-        this.crearHelicopterAleatori();
-        this.generarSoldats(7);
-        ObjecteEnMoviment helicopterPare = new Helicopter();
+        Helicopter helicopterPare = new Helicopter();
 
+        while (!jocFinalitzat) {
+            generarHelicopters();
 
-        helicopterPare = objectesEnMoviment.get(0);
-        while (!haSortit) {
             for (int i = 0; i < objectesEnMoviment.size(); i++) {
 
                 // Desem els helicopters en una variable per poder pasarlos al
                 // mètode startPlay dels soldats.
 
-                if (objectesEnMoviment.get(i) instanceof Helicopter) {
-                    helicopterPare = objectesEnMoviment.get(i);
+                if (!objectesEnMoviment.get(i).isHaSortit()) {
 
-                    if (!helicopterPare.estaDinsFinestra(this,
-                            helicopterPare.getImatge())) {
-                        haSortit = true;
+                        // Si trobem un soldat:
+                    if (objectesEnMoviment.get(i) instanceof Soldat) {
+
+                        objectesEnMoviment.get(i).startPlay(this,
+                                helicopterPare);
+
+                        // Si trobem un helicopter:
+                    }
+                    if (objectesEnMoviment.get(i) instanceof Helicopter) {
+                        helicopterPare = (Helicopter) objectesEnMoviment.get(i);
+                        objectesEnMoviment.get(i).startPlay(this);
+
+                        // Si trobem una bala:
                     } else {
                         objectesEnMoviment.get(i).startPlay(this);
                     }
 
                 }
-                if (objectesEnMoviment.get(i) instanceof Soldat) {
-                    Soldat soldat = ((Soldat) objectesEnMoviment.get(i));
-                    soldat.startPlay(this, helicopterPare);
 
-
-
-                }
             }
             this.pause(25);
+        }
+    }
+
+    public void generarHelicopters() {
+        int x = generarRandom(500);
+        int numHelicopters = generarRandom(4);
+        if (x == 1) {
+            for (int i = 0; i < numHelicopters; i++) {
+                crearHelicopterAleatori();
+            }
         }
     }
 
@@ -143,21 +136,25 @@ public class Main extends GraphicsProgram {
         /**
          * Creem un helicopter
          */
+
         Helicopter helicopter = new Helicopter(assignarImatgeHeli());
         if (helicopter.ubicacio == 0) {
             helicopter.getImatge().setLocation(
-                    0 - helicopter.getImatge().getWidth(), 0);
+                    0 - helicopter.getImatge().getWidth(),
+                    generarFilaAleatoria());
             helicopter.flipHorizontal(helicopter.getImatges().get(0));
             helicopter.flipHorizontal(helicopter.getImatges().get(1));
             this.add(helicopter.getImatge());
 
         } else {
-            helicopter.getImatge().setLocation(
-                    this.getWidth() - helicopter.getImatge().getWidth(), 0);
+            helicopter.getImatge().setLocation(this.getWidth(),
+                    generarFilaAleatoria());
             this.add(helicopter.getImatge());
         }
 
         objectesEnMoviment.add(helicopter);
+        generarSoldats(generarRandom(7));
+
     }
 
     /**
@@ -165,11 +162,32 @@ public class Main extends GraphicsProgram {
      */
     public void generarSoldats(int numSoldats) {
         System.out.println("Nº de soldats a bord: " + numSoldats);
-        for (int i = 0; i < numSoldats; i++) {
 
-            Soldat soldat = new Soldat();
+        for (int i = 0; i < numSoldats; i++) {
+            int xSalt = generarRandom(800);
+            Soldat soldat = new Soldat(xSalt);
             objectesEnMoviment.add(soldat);
         }
+    }
+
+    public int generarFilaAleatoria() {
+        int ran = generarRandom01();
+        if (ran == 0) {
+            return 0;
+        }
+        return 95;
+
+    }
+
+    public int generarRandom(int valor) {
+        Random rnd = new Random();
+        return (int) (rnd.nextDouble() * valor) + 1;
+    }
+
+    public int generarRandom01() {
+        Random rnd = new Random();
+        return (int) (rnd.nextDouble() * 2);
+
     }
 
     final void controlInici() {
@@ -203,9 +221,10 @@ public class Main extends GraphicsProgram {
         }
         if (e.VK_SPACE == e.getKeyCode()) {
 
-            cano.dispara(this);
+            Bala novaBala = cano.dispara();
+            objectesEnMoviment.add(novaBala);
 
-            System.out.println("Tecla polsada.");
+            System.out.println("Bala afegida!");
         }
     }
 

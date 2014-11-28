@@ -13,7 +13,7 @@ public class Helicopter extends ObjecteEnMoviment {
     int velocitatD;
     int velocitatE;
     int ubicacio;
-    ArrayList<Soldat> soldatsAbord;
+
 
     Helicopter(){
 
@@ -32,7 +32,8 @@ public class Helicopter extends ObjecteEnMoviment {
         velocitatD = 5;
         velocitatE = -5;
         ubicacio = generarRandom();
-        soldatsAbord = new ArrayList<>();
+        this.setHaSortit(false);
+
     }
 
     /**
@@ -43,17 +44,21 @@ public class Helicopter extends ObjecteEnMoviment {
 
     public void startPlay(Main finestra) {
 
-
+        if(this.estaDinsFinestra(finestra, getImatge())){
             this.moureHelicopter(finestra);
+        }else{
+            this.haSortit = true;
+        }
+
 
     }
 
     public void moureHelicopter(Main finestra) {
         if (ubicacio == 0) {
-            this.getImatge().move(1, 0);
+            this.getImatge().move(2, 0);
 
         } else {
-            this.getImatge().move(-1, 0);
+            this.getImatge().move(-2, 0);
 
         }
 
@@ -89,39 +94,7 @@ public class Helicopter extends ObjecteEnMoviment {
         main.add(imatge);
     }
 
-    public int[] calculOperturaPortes(Main finestra) {
-        Random rnd = new Random();
 
-        // Calculem un numero a l'atzar de soldats.
-        int[] xAleatoris = new int[(int) (rnd.nextDouble() * 7 + 1)];
-
-        // Generem les coordenades X que correspondran al moment de l'expulsio
-        // dels soldats de l'helicopter....
-
-        for (int i = 0; i < xAleatoris.length; i++) {
-            xAleatoris[i] = (int) (rnd.nextDouble() * finestra.getWidth());
-        }
-
-        return xAleatoris;
-
-    }
-
-    public void obrirPortes(int[] posicionsX, Main finestra) {
-        for (int i = 0; i < posicionsX.length; i++) {
-            if (this.getImatge().getX() == posicionsX[i]) {
-                soldatsAbord.get(soldatsAbord.size() - 1).saltarHelicopter(
-                        finestra, this);
-                soldatsAbord.remove(soldatsAbord.size() - 1);
-            }
-        }
-
-        // if (this.getImatge().getX() == posicionsX[0]) {
-        // System.out.println("Surt Soldat!");
-        // for (int i = 0; i < soldatsAbord.size(); i++) {
-        // soldatsAbord.get(i).saltarHelicopter(finestra, this);
-        // }
-        // }
-    }
 
     public ArrayList<GImage> getImatges() {
         return imatges;
@@ -143,14 +116,7 @@ public class Helicopter extends ObjecteEnMoviment {
 
     }
 
-    public void carregaSoldats(int numSoldats) {
-        System.out.println("Nº de soldats a bord: " + numSoldats);
-        for (int i = 0; i < numSoldats; i++) {
 
-            Soldat soldat = new Soldat();
-            soldatsAbord.add(soldat);
-        }
-    }
 
 
 

@@ -8,6 +8,7 @@ import acm.graphics.GRectangle;
 public abstract class ObjecteEnMoviment {
 
     GImage imatge;
+    boolean haSortit;
 
 
 
@@ -29,6 +30,7 @@ public abstract class ObjecteEnMoviment {
         if(!estaDins){
             System.out.println("Objecte fora de la finestra! ELIMINAT!");
             imatgeOM.getParent().remove(imatgeOM);
+            return estaDins;
         }
         return estaDins;
     }
@@ -60,6 +62,12 @@ public abstract class ObjecteEnMoviment {
         this.imatge = imatge;
     }
 
+    public boolean isHaSortit() {
+        return haSortit;
+    }
+    public void setHaSortit(boolean haSortit) {
+        this.haSortit = haSortit;
+    }
 
 
 

@@ -13,18 +13,10 @@ public class Bala extends ObjecteEnMoviment {
         y = iniciy;
     }
 
-    void moureBala(Main finestra) {
-        imatge.setLocation(x, finestra.getHeight()/2);
-        finestra.add(imatge);
-
-//		while (this.estaDinsFinestra(finestra, this.getImatge())) {
-//			System.out.println("Esta dins");
-//			imatge.move(0, 2);
-//			finestra.pause(100);
-//
-//		}
-
+    public void moureBala(){
+        this.getImatge().move(0, 2);
     }
+
 
     public GImage getImatge() {
         return imatge;
@@ -37,7 +29,7 @@ public class Bala extends ObjecteEnMoviment {
     @Override
     public void startPlay(Main finestra) {
         // TODO Auto-generated method stub
-
+        this.moureBala();
     }
 
     @Override

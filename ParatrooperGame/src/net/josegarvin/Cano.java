@@ -16,14 +16,14 @@ public class Cano {
     double posYBase;
     double posXTub;
     double posYTub;
-    ArrayList<Bala> bales;
+
 
     Cano(GImage base, GImage tub, Main finestra) {
         this.baseCano = base;
         this.tubCano = tub;
         this.posXBase = finestra.getTamanyX();
         this.posYBase = finestra.getTamanyY() - base.getHeight();
-        bales = new ArrayList<Bala>();
+
     }
 
     void rotarTubCano(int graus) {
@@ -33,12 +33,11 @@ public class Cano {
     }
 
 
-    void dispara(Main finestra){
-        Bala bala = new Bala(tubCano.getY(), tubCano.getWidth()/2);
-        bales.add(bala);
+    Bala dispara(){
 
+        Bala bala = new Bala(tubCano.getY(), tubCano.getWidth()/2);
         System.out.println("Bala Creada!");
-        bala.moureBala(finestra);
+        return bala;
     }
 
 
