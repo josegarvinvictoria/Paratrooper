@@ -11,10 +11,11 @@ public class Soldat extends ObjecteEnMoviment {
     boolean tocaTerra;
     Paracaigudes paraca;
     boolean paracaObert;
+    boolean atacantCano;
 
     public Soldat(int x) {
         // TODO Auto-generated constructor stub
-        this.setImatge(new GImage("resources/soldat/soldierMini.png", x,0));
+        this.setImatge(new GImage("resources/soldat/soldierMini.png", x, 0));
         haSaltat = false;
         xSalt = x;
         paracaObert = false;
@@ -30,12 +31,9 @@ public class Soldat extends ObjecteEnMoviment {
 
     }
 
-
-
     @Override
     public void startPlay(Main finestra) {
         // TODO Auto-generated method stub
-
 
     }
 
@@ -48,7 +46,7 @@ public class Soldat extends ObjecteEnMoviment {
 
             // Quan s'arriba a la pos de salt el fem saltar.
             if (helicopter.getImatge().getX() == this.getxSalt()) {
-                System.out.println("Salta!");
+                // System.out.println("Salta!");
                 this.saltarHelicopter(finestra, helicopter);
                 this.setHaSaltat(true);
             }
@@ -57,10 +55,10 @@ public class Soldat extends ObjecteEnMoviment {
         if (this.haSaltat && !this.tocaTerra) {
             this.caure();
 
-            if(this.getImatge().getY() > finestra.getHeight()/2){
+            if (this.getImatge().getY() > finestra.getHeight() / 2) {
 
-                if(!paracaObert){
-                    System.out.println("Obrir paracaigudes!");
+                if (!paracaObert) {
+                    // System.out.println("Obrir paracaigudes!");
                     obrirParaca(finestra);
                     this.paracaObert = true;
                 }
@@ -74,6 +72,9 @@ public class Soldat extends ObjecteEnMoviment {
                 this.paraca = null;
 
             }
+            if(this.tocaTerra){
+                atacarCano(finestra);
+            }
 
         }
 
@@ -81,23 +82,37 @@ public class Soldat extends ObjecteEnMoviment {
 
     }
 
-    public void obrirParaca(Main finestra){
+    public void obrirParaca(Main finestra) {
         Paracaigudes paracaigudes = new Paracaigudes();
         this.paraca = paracaigudes;
-        paraca.getImatge().setLocation(this.getImatge().getX() +5, this.getImatge().getY() - 30);
+        paraca.getImatge().setLocation(this.getImatge().getX() + 5,
+                this.getImatge().getY() - 30);
         finestra.add(paraca.getImatge());
     }
 
     public void caure() {
 
-        if(this.paraca == null){
+        if (this.paraca == null) {
             this.imatge.move(0, 2);
         }
-        if(this.paraca != null){
-            System.out.println("Baixa amb paraca!");
+        if (this.paraca != null) {
+
             this.imatge.move(0, 0.5);
             this.paraca.getImatge().move(0, 0.5);
         }
+
+    }
+
+
+    public void atacarCano(Main finestra){
+        double destiX = finestra.getWidth()/2;
+
+        if(this.getImatge().getX() > destiX){
+            this.getImatge().move(2, 0);
+        }
+
+
+
 
     }
 

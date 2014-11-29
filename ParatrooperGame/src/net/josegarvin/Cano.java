@@ -16,6 +16,7 @@ public class Cano {
     double posYBase;
     double posXTub;
     double posYTub;
+    double orientacio;
 
 
     Cano(GImage base, GImage tub, Main finestra) {
@@ -23,7 +24,7 @@ public class Cano {
         this.tubCano = tub;
         this.posXBase = finestra.getTamanyX();
         this.posYBase = finestra.getTamanyY() - base.getHeight();
-
+        this.orientacio = 0;
     }
 
     void rotarTubCano(int graus) {
@@ -33,10 +34,10 @@ public class Cano {
     }
 
 
-    Bala dispara(){
+    Bala dispara(double iniciX, double iniciY){
 
-        Bala bala = new Bala(tubCano.getY(), tubCano.getWidth()/2);
-        System.out.println("Bala Creada!");
+        Bala bala = new Bala(iniciX, iniciY);
+        //System.out.println("Bala Creada!");
         return bala;
     }
 
@@ -85,6 +86,15 @@ public class Cano {
 
         // Return the buffered image
         return bimage;
+    }
+
+
+    public double getOrientacio() {
+        return orientacio;
+    }
+
+    public void setOrientacio(double orientacio) {
+        this.orientacio = orientacio;
     }
 
     public GImage getTubCano() {

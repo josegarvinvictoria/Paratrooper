@@ -98,7 +98,7 @@ public class Main extends GraphicsProgram {
 
                 if (!objectesEnMoviment.get(i).isHaSortit()) {
 
-                        // Si trobem un soldat:
+                    // Si trobem un soldat:
                     if (objectesEnMoviment.get(i) instanceof Soldat) {
 
                         objectesEnMoviment.get(i).startPlay(this,
@@ -119,6 +119,7 @@ public class Main extends GraphicsProgram {
 
             }
             this.pause(25);
+
         }
     }
 
@@ -153,7 +154,7 @@ public class Main extends GraphicsProgram {
         }
 
         objectesEnMoviment.add(helicopter);
-        generarSoldats(generarRandom(7));
+        generarSoldats(generarRandom(2));
 
     }
 
@@ -161,7 +162,7 @@ public class Main extends GraphicsProgram {
      * Generar Soldats Aleatoris.
      */
     public void generarSoldats(int numSoldats) {
-        System.out.println("Nº de soldats a bord: " + numSoldats);
+        //System.out.println("Nº de soldats a bord: " + numSoldats);
 
         for (int i = 0; i < numSoldats; i++) {
             int xSalt = generarRandom(800);
@@ -211,20 +212,40 @@ public class Main extends GraphicsProgram {
     public void keyPressed(KeyEvent e) {
 
         if (e.VK_LEFT == e.getKeyCode()) {
-            cano.rotarTubCano(-7);
-            System.out.println("Tecla polsada.");
+             cano.rotarTubCano(-5);
+
+             if (cano.getOrientacio() < 1.75) {
+                 double orientacioActual = cano.getOrientacio();
+                 cano.setOrientacio(orientacioActual += 0.25);
+             }
+
+             System.out.println(cano.getOrientacio());
 
         }
         if (e.VK_RIGHT == e.getKeyCode()) {
-            cano.rotarTubCano(7);
-            System.out.println("Tecla polsada.");
+             cano.rotarTubCano(5);
+
+             if (cano.getOrientacio() > -1.75) {
+                 double orientacioActual = cano.getOrientacio();
+                 cano.setOrientacio(orientacioActual -= 0.25);
+             }
+
+             System.out.println(cano.getOrientacio());
+
+
         }
         if (e.VK_SPACE == e.getKeyCode()) {
 
-            Bala novaBala = cano.dispara();
-            objectesEnMoviment.add(novaBala);
+            // Calcul angles bala
+            double balaX = Math.sin(cano.getOrientacio());
+            double balaY = Math.cos(cano.getOrientacio());
 
-            System.out.println("Bala afegida!");
+            Bala novaBala = cano.dispara(balaX, balaY);
+            objectesEnMoviment.add(novaBala);
+            novaBala.getImatge().setLocation(cano.getTubCano().getX() +23  , cano.getTubCano().getY() - 8);
+            this.add(novaBala.getImatge());
+            //System.out.println("Bala afegida!");
+            System.out.println(objectesEnMoviment.toString());
         }
     }
 
