@@ -4,61 +4,86 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import acm.graphics.GImage;
-import acm.graphics.GRectangle;
 
+/**
+ * Classe per crear objectes de tipus "Helicopter".
+ *
+ * @author Jose Garvin Victoria
+ *
+ */
 public class Helicopter extends ObjecteEnMoviment {
 
-    ArrayList<GImage> imatges;
-    int indexImatge;
-    int velocitatD;
-    int velocitatE;
-    int ubicacio;
+    /**
+     * Velocitat dels helicopters.
+     */
+    private static final int VELOCITAT = 2;
 
+    /**
+     * Arraylist amb les imatges de l'helicopter.
+     */
+    private ArrayList<GImage> imatges;
 
-    Helicopter(){
+    /**
+     * Index corresponent a la imatge actual de l'helicopter.
+     */
+    private int indexImatge;
+
+    /**
+     * Ubicació inicial de l'helicopter. 0/Esquerra 1/Dreta.
+     */
+    private int ubicacio;
+
+    /**
+     * Constructor per defecte.
+     */
+    Helicopter() {
 
     }
+
     /**
-     * Constructor
+     * Constructor per a objectes de tipus "Helicopter".
      *
      * @param imatgesHeli
+     *            --> ArrayList amb les imatges de l'helicopter.
      */
-
-
-    Helicopter(ArrayList<GImage> imatgesHeli) {
-        imatge = imatgesHeli.get(0);
+    Helicopter(final ArrayList<GImage> imatgesHeli) {
+        setImatge(imatgesHeli.get(0));
         indexImatge = 0;
         imatges = imatgesHeli;
-        velocitatD = 5;
-        velocitatE = -5;
         ubicacio = generarRandom();
         this.setHaSortit(false);
 
     }
 
     /**
-     * Mètode per moure els helicopters
+     * Mètode per inicialitzar els helicopters.
      *
-     * @param main
+     * @param finestra
+     *            --> Finestra del joc.
      */
 
-    public void startPlay(Main finestra) {
+    public final void startPlay(final Main finestra) {
 
-        if(this.estaDinsFinestra(finestra, getImatge())){
+        if (this.estaDinsFinestra(finestra, getImatge())) {
             this.moureHelicopter(finestra);
-        }else{
-            this.haSortit = true;
+        } else {
+            this.setHaSortit(true);
         }
-
 
     }
 
-    public void moureHelicopter(Main finestra) {
+    /**
+     * Mètode per moure els helicopters.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     */
+    final void moureHelicopter(final Main finestra) {
         if (ubicacio == 0) {
-            this.getImatge().move(2, 0);
+            this.getImatge().move(VELOCITAT, 0);
 
         } else {
-            this.getImatge().move(-2, 0);
+            this.getImatge().move(VELOCITAT * -1, 0);
 
         }
 
@@ -70,38 +95,48 @@ public class Helicopter extends ObjecteEnMoviment {
      * Mètode per donar l'efecte de moviment a l'helicopter.
      *
      * @param main
+     *            --> Finestra del joc.
      */
-    public void canviImatge(Main main) {
+    final void canviImatge(final Main main) {
         if (indexImatge == 0) {
 
-            double x = imatge.getX();
-            double y = imatge.getY();
-            main.remove(imatge);
+            double x = getImatge().getX();
+            double y = getImatge().getY();
+            main.remove(getImatge());
             setImatge(imatges.get(1));
 
-            imatge.setLocation(x, y);
+            getImatge().setLocation(x, y);
 
             indexImatge = 1;
 
         } else {
-            double x = imatge.getX();
-            double y = imatge.getY();
-            main.remove(imatge);
+            double x = getImatge().getX();
+            double y = getImatge().getY();
+            main.remove(getImatge());
             setImatge(imatges.get(0));
-            imatge.setLocation(x, y);
+            getImatge().setLocation(x, y);
             indexImatge = 0;
         }
-        main.add(imatge);
+        main.add(getImatge());
     }
 
-
-
-    public ArrayList<GImage> getImatges() {
+    /**
+     * Mètode per obtenir les imatges de l'helicopter.
+     *
+     * @return --> ArrayList amb les imatges.
+     */
+    final ArrayList<GImage> getImatges() {
         return imatges;
     }
 
-    public void setImatges(ArrayList<GImage> imatges) {
-        this.imatges = imatges;
+    /**
+     * Mètode per assignar unes imatges a l'helicopter.
+     *
+     * @param imatgesN
+     *            --> ArrayList amb les imatges.
+     */
+    final void setImatges(final ArrayList<GImage> imatgesN) {
+        this.imatges = imatgesN;
     }
 
     /**
@@ -110,18 +145,34 @@ public class Helicopter extends ObjecteEnMoviment {
      *
      * @return --> 0 o 1.
      */
-    public int generarRandom() {
+    final int generarRandom() {
         Random rnd = new Random();
         return (int) (rnd.nextDouble() * 2);
 
     }
 
+    /**
+     * Mètode per obtenir l'ubicació d'un helicopter.
+     *
+     * @return --> Retorna un enter corresponent a l'ubicació de l'helicopter.
+     */
+    final int getUbicacio() {
+        return ubicacio;
+    }
 
-
-
+    /**
+     * Mètode per assignar l'ubicació d'un helicopter.
+     *
+     * @param ubicacioN
+     *            --> Enter corresponent a l'ubicació. 0 Esquerra / 1 Dreta.
+     */
+    final void setUbicacio(final int ubicacioN) {
+        this.ubicacio = ubicacioN;
+    }
 
     @Override
-    public void startPlay(Main finestra, ObjecteEnMoviment helicopter) {
+    public final void startPlay(final Main finestra,
+            final ObjecteEnMoviment helicopter) {
         // TODO Auto-generated method stub
 
     }

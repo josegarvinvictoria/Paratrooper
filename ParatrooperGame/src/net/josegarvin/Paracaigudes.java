@@ -2,21 +2,34 @@ package net.josegarvin;
 
 import acm.graphics.GImage;
 
-public class Paracaigudes {
-    GImage imatge;
+/**
+ * Mètode per crear objectes de tipus paracaigudes.
+ * @author b4tm4n
+ *
+ */
+public class Paracaigudes extends ObjecteEnMoviment{
 
+
+    /**
+     * Mètode per crear objectes de tipus "paracaigudes".
+     */
     public Paracaigudes() {
         // TODO Auto-generated constructor stub
         this.setImatge(new GImage("resources/soldat/paracaigudesR.png"));
     }
 
-    public GImage getImatge() {
-        return imatge;
+    @Override
+    public void startPlay(Main finestra) {
+        // TODO Auto-generated method stub
+
     }
 
-    public void setImatge(GImage imatge) {
-        this.imatge = imatge;
+    @Override
+    public void startPlay(Main finestra, ObjecteEnMoviment helicopter) {
+        // TODO Auto-generated method stub
+
     }
+
 
 
 

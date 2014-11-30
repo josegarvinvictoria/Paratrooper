@@ -1,33 +1,61 @@
 package net.josegarvin;
+
 import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 
-
-
-
+/**
+ * Classe abstracta per a objectes en moviment.
+ *
+ * @author Jose Garvin Victoria.
+ *
+ */
 public abstract class ObjecteEnMoviment {
 
-    GImage imatge;
-    boolean haSortit;
-
-
-
-    public abstract void startPlay(Main finestra);
-
-    public abstract void startPlay(Main finestra, ObjecteEnMoviment helicopter);
-
+    /**
+     * Imatge de l'objecte en moviment.
+     */
+    private GImage imatge;
 
     /**
-     * Mètode per comprovar si els helicopters estan dins de la finestra
-     * @param finestra
-     * @return
+     * Boolean que determina si un objecte ha sortir de la finestra.
      */
+    private boolean haSortit;
 
-    public final boolean estaDinsFinestra(Main finestra, GImage imatgeOM) {
-        GRectangle GRfinestra  = new GRectangle(0, 0,
-                finestra.getWidth(), finestra.getHeight());
-        boolean estaDins = GRfinestra.getBounds().intersects(imatgeOM.getBounds());
-        if(!estaDins){
+    /**
+     * Mètode abstracte per inicialitzar un objecte en moviment.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     */
+    public abstract void startPlay(Main finestra);
+
+    /**
+     * Mètode abstracte per inicialitzar un objecte en moviment.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     * @param helicopter
+     *            --> Objecte "Helicopter".
+     */
+    public abstract void startPlay(Main finestra, ObjecteEnMoviment helicopter);
+
+    /**
+     * Mètode per comprovar si els helicopters estan dins de la finestra.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     * @param imatgeOM
+     *            --> Imatge de l'objecte a comprovar.
+     * @return --> True/ Si l'objecte esta dins de la finestra. False/ Si no ho
+     *         esta.
+     */
+    public final boolean estaDinsFinestra(final Main finestra,
+            final GImage imatgeOM) {
+        GRectangle grFinestra = new GRectangle(0, 0, finestra.getWidth(),
+                finestra.getHeight());
+        boolean estaDins = grFinestra.getBounds().intersects(
+                imatgeOM.getBounds());
+        if (!estaDins) {
             System.out.println("Objecte fora de la finestra! ELIMINAT!");
             imatgeOM.getParent().remove(imatgeOM);
             return estaDins;
@@ -37,9 +65,10 @@ public abstract class ObjecteEnMoviment {
 
     /**
      * Mètode per invertir l'imatge d'un soldat.
+     * @param imatgeN --> Imatge a invertir.
      */
-    final void flipHorizontal(GImage imatge) {
-        int[][] array = imatge.getPixelArray();
+    final void flipHorizontal(final GImage imatgeN) {
+        int[][] array = imatgeN.getPixelArray();
         int height = array.length;
         int width = array[0].length;
 
@@ -51,27 +80,39 @@ public abstract class ObjecteEnMoviment {
                 array[y][x2] = temp;
             }
         }
-        imatge.setImage(new GImage(array).getImage());
+        imatgeN.setImage(new GImage(array).getImage());
     }
 
-    public GImage getImatge() {
+    /**
+     * Mètode per obtenir la imatge de un objecte en moviment.
+     * @return --> Retorna la imatge de l'objecte.
+     */
+    final GImage getImatge() {
         return imatge;
     }
 
-    public void setImatge(GImage imatge) {
-        this.imatge = imatge;
+    /**
+     * Mètode per assignar una imatge a un  objecte en moviment.
+     * @param imatgeN --> Imatge a assignar.
+     */
+    final void setImatge(final GImage imatgeN) {
+        this.imatge = imatgeN;
     }
 
-    public boolean isHaSortit() {
+    /**
+     * Mètode per obtenir la variable haSortit.
+     * @return --> Retorna el valor de la variable.
+     */
+    final boolean isHaSortit() {
         return haSortit;
     }
-    public void setHaSortit(boolean haSortit) {
-        this.haSortit = haSortit;
+
+    /**
+     * Mètode per assignar un valor a la variable haSortit.
+     * @param haSortitN --> Valor a assignar.
+     */
+    final void setHaSortit(final boolean haSortitN) {
+        this.haSortit = haSortitN;
     }
-
-
-
-
-
 
 }

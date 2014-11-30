@@ -1,19 +1,52 @@
 package net.josegarvin;
 
-import java.util.Random;
-
 import acm.graphics.GImage;
 
+/**
+ * Mètode per crear objectes de tipus "Soldat".
+ *
+ * @author Jose Garvin Victoria.
+ *
+ */
 public class Soldat extends ObjecteEnMoviment {
 
-    boolean haSaltat;
-    double xSalt = 0;
-    boolean tocaTerra;
-    Paracaigudes paraca;
-    boolean paracaObert;
-    boolean atacantCano;
+    /**
+     * Velocitat del soldat quan baixa amb paracaigudes.
+     */
+    private static final double VELOCITATSOLDATAMBPARACA = 0.5;
 
-    public Soldat(int x) {
+    /**
+     * Boolean per determinar si el soldat ha saltat de l'helicopter.
+     */
+    private boolean haSaltat;
+
+    /**
+     * Coordenada X de salt.
+     */
+    private double xSalt = 0;
+
+    /**
+     * Boolean per determinar si el soldat ha tocat el terra.
+     */
+    private boolean tocaTerra;
+
+    /**
+     * Variable on s'emmagatzema el paracaigudes del soldat.
+     */
+    private Paracaigudes paraca;
+
+    /**
+     * Boolean per determinar si el soldat ha obert el paracaigudes.
+     */
+    private boolean paracaObert;
+
+
+
+    /**
+     * Constructor per crear objectes de tipus "Soldat".
+     * @param x --> Coordenada X de salt del soldat.
+     */
+    public Soldat(final int x) {
         // TODO Auto-generated constructor stub
         this.setImatge(new GImage("resources/soldat/soldierMini.png", x, 0));
         haSaltat = false;
@@ -22,23 +55,33 @@ public class Soldat extends ObjecteEnMoviment {
         this.setHaSortit(haSaltat);
     }
 
-    public void saltarHelicopter(Main finestra, ObjecteEnMoviment helicopter) {
+    /**
+     * Mètode per fer que un soldat salti de l'helicopter.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     * @param helicopter
+     *            --> Helicopter del qual ha saltat el soldat.
+     */
+    final void saltarHelicopter(final Main finestra,
+            final ObjecteEnMoviment helicopter) {
         this.getImatge().setLocation(helicopter.getImatge().getX() + 55,
                 helicopter.getImatge().getY() + 55);
         finestra.add(this.getImatge());
 
-        this.imatge.move(0, 1);
+        this.getImatge().move(0, 1);
 
     }
 
     @Override
-    public void startPlay(Main finestra) {
+    public final void startPlay(final Main finestra) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void startPlay(Main finestra, ObjecteEnMoviment helicopter) {
+    public final void startPlay(final Main finestra,
+            final ObjecteEnMoviment helicopter) {
         // TODO Auto-generated method stub
 
         // Si el soldat no ha saltat.
@@ -51,7 +94,7 @@ public class Soldat extends ObjecteEnMoviment {
                 this.setHaSaltat(true);
             }
 
-        }// Si el soldat ha saltat i no ha tocat terra
+        } // Si el soldat ha saltat i no ha tocat terra
         if (this.haSaltat && !this.tocaTerra) {
             this.caure();
 
@@ -72,17 +115,18 @@ public class Soldat extends ObjecteEnMoviment {
                 this.paraca = null;
 
             }
-            if(this.tocaTerra){
-                atacarCano(finestra);
-            }
 
         }
 
-
-
     }
 
-    public void obrirParaca(Main finestra) {
+    /**
+     * Mètode per obrir el paracaigudes del soldat.
+     *
+     * @param finestra
+     *            --> Finestra del joc.
+     */
+    final void obrirParaca(final Main finestra) {
         Paracaigudes paracaigudes = new Paracaigudes();
         this.paraca = paracaigudes;
         paraca.getImatge().setLocation(this.getImatge().getX() + 5,
@@ -90,54 +134,78 @@ public class Soldat extends ObjecteEnMoviment {
         finestra.add(paraca.getImatge());
     }
 
-    public void caure() {
+    /**
+     * Mètode per fer que el soldat es mogui al saltar de l'helicopter.
+     */
+    final void caure() {
 
         if (this.paraca == null) {
-            this.imatge.move(0, 2);
+            this.getImatge().move(0, 2);
         }
         if (this.paraca != null) {
 
-            this.imatge.move(0, 0.5);
-            this.paraca.getImatge().move(0, 0.5);
+            this.getImatge().move(0, VELOCITATSOLDATAMBPARACA);
+            this.paraca.getImatge().move(0, VELOCITATSOLDATAMBPARACA);
         }
 
     }
 
-
-    public void atacarCano(Main finestra){
-        double destiX = finestra.getWidth()/2;
-
-        if(this.getImatge().getX() > destiX){
-            this.getImatge().move(2, 0);
-        }
-
-
-
-
-    }
-
-    public boolean isTocaTerra() {
+    /**
+     * Mètode per determinar si un soldat ha tocat el terra.
+     *
+     * @return --> True/Si el soldat a tocat el terra. False/SI encara no ha
+     *         arribat.
+     */
+    final boolean isTocaTerra() {
         return tocaTerra;
     }
 
-    public void setTocaTerra(boolean tocaTerra) {
-        this.tocaTerra = tocaTerra;
+    /**
+     * Mètode per determinar assignar valor a la propietat tocaTerra.
+     *
+     * @param tocaTerraN
+     *            --> Boolean a assignar.
+     */
+    final void setTocaTerra(final boolean tocaTerraN) {
+        this.tocaTerra = tocaTerraN;
     }
 
-    public boolean isHaSaltat() {
+    /**
+     * Mètode per determinar si un soldat ha saltat.
+     *
+     * @return --> True/Si el soldat a saltat. False/SI encara no ha saltat.
+     */
+    final boolean isHaSaltat() {
         return haSaltat;
     }
 
-    public void setHaSaltat(boolean haSaltat) {
-        this.haSaltat = haSaltat;
+    /**
+     * Mètode per assignar valor a la propietat haSaltat.
+     *
+     * @param haSaltatN
+     *            --> Boolean a assignar.
+     */
+    final void setHaSaltat(final boolean haSaltatN) {
+        this.haSaltat = haSaltatN;
     }
 
-    public double getxSalt() {
+    /**
+     * Mètode per obtenir la X de salt d'un soldat.
+     *
+     * @return --> Retorna la coordenada X de salt del soldat.
+     */
+    final double getxSalt() {
         return xSalt;
     }
 
-    public void setxSalt(double xSalt) {
-        this.xSalt = xSalt;
+    /**
+     * Mètode per assignar la X de salt del soldat.
+     *
+     * @param xSaltN
+     *            --> Coordenada X de salt.
+     */
+    final void setxSalt(final double xSaltN) {
+        this.xSalt = xSaltN;
     }
 
 }
